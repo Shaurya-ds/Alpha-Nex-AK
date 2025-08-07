@@ -6,7 +6,7 @@ import uuid
 from datetime import datetime, timedelta
 from flask import render_template, redirect, url_for, flash, request, session, jsonify
 from werkzeug.utils import secure_filename
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from app import app, db
 from models import User, Upload, Review, Strike, WithdrawalRequest, AdminAction, Rating
 from forms import UploadForm, ReviewForm, RatingForm
@@ -254,8 +254,93 @@ def create_test_content_old():
 
 @app.route('/')
 def index():
-    """Landing page redirects to name entry"""
-    return redirect(url_for('name_entry'))
+    """Landing page with user statistics"""
+    # Check if user is logged in
+    user_id = session.get('user_id')
+    if user_id:
+        user = User.query.get(user_id)
+        if user:
+            # Get user stats
+            upload_count = Upload.query.filter_by(user_id=user.id).count()
+            review_count = Review.query.filter_by(reviewer_id=user.id).count()
+            
+            # Get recent uploads
+            recent_uploads = Upload.query.filter_by(user_id=user.id)\
+                                        .order_by(Upload.uploaded_at.desc()).limit(5).all()
+            
+            return render_template('index.html', 
+                                 current_user=user,
+                                 upload_count=upload_count,
+                                 review_count=review_count,
+                                 recent_uploads=recent_uploads)
+    
+    return render_template('index.html', current_user=None)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """User login page"""
+    from forms import LoginForm
+    form = LoginForm()
+    
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and check_password_hash(user.password_hash, form.password.data):
+            session['user_id'] = user.id
+            session['user_name'] = user.name
+            flash('Login successful!', 'success')
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Invalid email or password.', 'error')
+    
+    return render_template('auth/login.html', form=form)
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    """User registration page"""
+    from forms import SignupForm
+    form = SignupForm()
+    
+    if form.validate_on_submit():
+        # Check if user already exists
+        existing_user = User.query.filter_by(email=form.email.data).first()
+        if existing_user:
+            flash('Email already registered. Please login instead.', 'error')
+            return redirect(url_for('login'))
+        
+        # Create new user
+        user = User()
+        user.name = form.name.data
+        user.email = form.email.data
+        user.username = form.email.data.split('@')[0] + str(User.query.count() + 1)
+        user.password_hash = generate_password_hash(form.password.data)
+        user.xp_points = 0
+        user.daily_upload_count = 0
+        user.daily_upload_bytes = 0
+        user.daily_review_count = 0
+        user.daily_upload_reset = datetime.utcnow()
+        user.daily_review_reset = datetime.utcnow()
+        user.uploader_strikes = 0
+        user.reviewer_strikes = 0
+        user.is_banned = False
+        
+        db.session.add(user)
+        db.session.commit()
+        
+        # Auto login after signup
+        session['user_id'] = user.id
+        session['user_name'] = user.name
+        
+        flash('Account created successfully! Welcome to Alpha Nex!', 'success')
+        return redirect(url_for('dashboard'))
+    
+    return render_template('auth/signup.html', form=form)
+
+@app.route('/logout')
+def logout():
+    """User logout"""
+    session.clear()
+    flash('You have been logged out successfully.', 'info')
+    return redirect(url_for('index'))
 
 @app.route('/name_entry', methods=['GET', 'POST'])
 def name_entry():

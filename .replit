@@ -4,3 +4,15 @@ channel = "stable-25_05"
 
 [deployment]
 run = ["sh", "-c", "run"]
+
+[workflows]
+runButton = "Run Alpha Nex"
+
+[[workflows.workflow]]
+name = "Run Alpha Nex"
+author = 46082940
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd Alpha-Nex-2 && python app.py"

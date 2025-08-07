@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block title %}Alpha Nex - Content Platform with AI Integration{% endblock %}
@@ -19,7 +20,7 @@
                 </p>
                 
                 <div class="d-flex gap-3 flex-wrap">
-                    {% if not current_user.is_authenticated %}
+                    {% if not current_user %}
                     <a href="{{ url_for('signup') }}" class="btn btn-white btn-lg">
                         <i class="fas fa-rocket me-2"></i>Get Started
                     </a>
@@ -30,6 +31,9 @@
                     <a href="{{ url_for('dashboard') }}" class="btn btn-white btn-lg">
                         <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
                     </a>
+                    <a href="{{ url_for('logout') }}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </a>
                     {% endif %}
                 </div>
             </div>
@@ -39,6 +43,116 @@
         </div>
     </div>
 </div>
+
+<!-- User Stats Section (if logged in) -->
+{% if current_user %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h3 class="fw-bold text-black mb-4">
+                        <i class="fas fa-user-circle me-2"></i>Welcome back, {{ current_user.name }}!
+                    </h3>
+                    
+                    <div class="row text-center g-4">
+                        <div class="col-6 col-md-3">
+                            <div class="card border-0 bg-light">
+                                <div class="card-body">
+                                    <h3 class="fw-bold text-success mb-1">{{ current_user.xp_points }}</h3>
+                                    <small class="text-muted">XP Points</small>
+                                    <div class="mt-2">
+                                        <small class="text-success">
+                                            <i class="fas fa-coins me-1"></i>Future Money Conversion
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="card border-0 bg-light">
+                                <div class="card-body">
+                                    <h3 class="fw-bold text-primary mb-1">{{ upload_count }}</h3>
+                                    <small class="text-muted">Total Uploads</small>
+                                    <div class="mt-2">
+                                        <small class="text-primary">
+                                            <i class="fas fa-cloud-upload-alt me-1"></i>Content Shared
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="card border-0 bg-light">
+                                <div class="card-body">
+                                    <h3 class="fw-bold text-warning mb-1">{{ review_count }}</h3>
+                                    <small class="text-muted">Reviews Given</small>
+                                    <div class="mt-2">
+                                        <small class="text-warning">
+                                            <i class="fas fa-star me-1"></i>Community Help
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="card border-0 bg-light">
+                                <div class="card-body">
+                                    <h3 class="fw-bold text-info mb-1">
+                                        {% if current_user.is_banned %}
+                                        <span class="text-danger">Banned</span>
+                                        {% else %}
+                                        <span class="text-success">Active</span>
+                                        {% endif %}
+                                    </h3>
+                                    <small class="text-muted">Account Status</small>
+                                    <div class="mt-2">
+                                        <small class="text-info">
+                                            <i class="fas fa-shield-alt me-1"></i>Good Standing
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Uploads -->
+    {% if recent_uploads %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="fw-bold text-black mb-3">
+                        <i class="fas fa-clock me-2"></i>Recent Uploads
+                    </h5>
+                    
+                    <div class="row g-3">
+                        {% for upload in recent_uploads %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-0 bg-light">
+                                <div class="card-body p-3">
+                                    <h6 class="fw-bold text-truncate">{{ upload.original_filename }}</h6>
+                                    <p class="small text-muted mb-2">{{ upload.description[:50] }}...</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-secondary">{{ upload.category }}</span>
+                                        <small class="text-muted">{{ upload.uploaded_at.strftime('%m/%d/%Y') }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
 
 <!-- Features Section -->
 <div class="container py-5">
@@ -110,7 +224,7 @@
                     <h5 class="fw-bold text-black">XP Rewards</h5>
                     <p class="text-muted small">
                         Earn XP points for quality uploads and reviews. 
-                        Request withdrawals through admin-approval system.
+                        Points will be converted to money when platform goes live.
                     </p>
                 </div>
             </div>
@@ -123,7 +237,7 @@
     <div class="container">
         <div class="text-center mb-5">
             <h2 class="fw-bold text-black mb-3">How It Works</h2>
-            <p class="text-muted">Simple process to start earning XP points</p>
+            <p class="text-muted">Simple process to start earning XP points for future money conversion</p>
         </div>
         
         <div class="row g-4">
@@ -164,9 +278,9 @@
                         <span class="fw-bold">3</span>
                     </div>
                     <div>
-                        <h5 class="fw-bold text-black">Earn & Withdraw</h5>
+                        <h5 class="fw-bold text-black">Earn & Convert</h5>
                         <p class="text-muted mb-0">
-                            Accumulate XP points and request withdrawals when the platform goes live.
+                            Accumulate XP points and convert them to money when the platform goes live.
                         </p>
                     </div>
                 </div>
@@ -175,58 +289,12 @@
     </div>
 </div>
 
-<!-- Stats Section -->
-{% if current_user.is_authenticated %}
-<div class="container py-5">
-    <div class="row text-center g-4">
-        <div class="col-6 col-md-3">
-            <div class="card border-0">
-                <div class="card-body">
-                    <h3 class="fw-bold text-black mb-1">{{ current_user.xp_points }}</h3>
-                    <small class="text-muted">Your XP Points</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card border-0">
-                <div class="card-body">
-                    <h3 class="fw-bold text-black mb-1">{{ current_user.uploads|length }}</h3>
-                    <small class="text-muted">Uploads</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card border-0">
-                <div class="card-body">
-                    <h3 class="fw-bold text-black mb-1">{{ current_user.reviews|length }}</h3>
-                    <small class="text-muted">Reviews</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card border-0">
-                <div class="card-body">
-                    <h3 class="fw-bold text-black mb-1">
-                        {% if current_user.is_banned %}
-                        <span class="text-danger">Banned</span>
-                        {% else %}
-                        <span class="text-success">Active</span>
-                        {% endif %}
-                    </h3>
-                    <small class="text-muted">Status</small>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endif %}
-
 <!-- CTA Section -->
-{% if not current_user.is_authenticated %}
+{% if not current_user %}
 <div class="bg-black text-white py-5">
     <div class="container text-center">
         <h2 class="fw-bold mb-3">Ready to Start Earning?</h2>
-        <p class="lead mb-4">Join Alpha Nex today and start building your XP points for future rewards.</p>
+        <p class="lead mb-4">Join Alpha Nex today and start building your XP points for future money conversion.</p>
         <div class="d-flex gap-3 justify-content-center flex-wrap">
             <a href="{{ url_for('signup') }}" class="btn btn-white btn-lg">
                 <i class="fas fa-user-plus me-2"></i>Create Account
