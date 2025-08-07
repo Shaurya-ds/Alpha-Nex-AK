@@ -254,27 +254,19 @@ def create_test_content_old():
 
 @app.route('/')
 def index():
-    """Landing page with user statistics"""
-    # Check if user is logged in
+    """Interference landing page - login/signup choice"""
+    # Check if user is already logged in
     user_id = session.get('user_id')
     if user_id:
         user = User.query.get(user_id)
         if user:
-            # Get user stats
-            upload_count = Upload.query.filter_by(user_id=user.id).count()
-            review_count = Review.query.filter_by(reviewer_id=user.id).count()
-            
-            # Get recent uploads
-            recent_uploads = Upload.query.filter_by(user_id=user.id)\
-                                        .order_by(Upload.uploaded_at.desc()).limit(5).all()
-            
-            return render_template('index.html', 
-                                 current_user=user,
-                                 upload_count=upload_count,
-                                 review_count=review_count,
-                                 recent_uploads=recent_uploads)
+            return redirect(url_for('dashboard'))
     
-    return render_template('index.html', current_user=None)
+    # Check if user has name in session (coming from demo mode)
+    if 'user_name' in session:
+        return redirect(url_for('dashboard'))
+    
+    return render_template('interference_landing.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
