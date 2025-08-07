@@ -1,140 +1,214 @@
 
 {% extends "base.html" %}
 
-{% block title %}Welcome to Alpha Nex - Choose Your Path{% endblock %}
+{% block title %}Alpha Nex - Content Platform with AI Integration{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<div class="bg-black text-white py-5 min-vh-100 d-flex align-items-center">
+<div class="bg-black text-white py-5">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 text-center">
-                <!-- Logo and Title -->
-                <div class="mb-5">
-                    <i class="fas fa-cube display-1 text-white mb-4"></i>
-                    <h1 class="display-3 fw-bold mb-4">Alpha Nex</h1>
-                    <p class="lead mb-4">
-                        The next-generation platform for content creators and reviewers
-                    </p>
-                    <p class="fs-5 mb-5 text-white-50">
-                        <i class="fas fa-coins me-2"></i>
-                        <strong>Earn XP points that convert to real money when we go live!</strong>
-                    </p>
-                </div>
-
-                <!-- Feature Highlights -->
-                <div class="row g-4 mb-5">
-                    <div class="col-md-4">
-                        <div class="text-center">
-                            <div class="bg-white bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
-                                 style="width: 80px; height: 80px;">
-                                <i class="fas fa-cloud-upload-alt fa-2x text-white"></i>
-                            </div>
-                            <h5 class="fw-bold text-white">Upload Content</h5>
-                            <p class="text-white-50 small">Share videos, audio, documents, code and more</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="text-center">
-                            <div class="bg-white bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
-                                 style="width: 80px; height: 80px;">
-                                <i class="fas fa-star fa-2x text-white"></i>
-                            </div>
-                            <h5 class="fw-bold text-white">Review & Earn</h5>
-                            <p class="text-white-50 small">Rate content quality and earn XP rewards</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="text-center">
-                            <div class="bg-white bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
-                                 style="width: 80px; height: 80px;">
-                                <i class="fas fa-coins fa-2x text-white"></i>
-                            </div>
-                            <h5 class="fw-bold text-white">Future Money</h5>
-                            <p class="text-white-50 small">XP points become real cash rewards</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="d-flex gap-4 justify-content-center flex-wrap mb-5">
-                    <a href="{{ url_for('signup') }}" class="btn btn-white btn-lg px-5 py-3">
-                        <i class="fas fa-user-plus me-2"></i>Create New Account
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6">
+                <h1 class="display-3 fw-bold mb-4">
+                    <i class="fas fa-cube me-3"></i>Alpha Nex
+                </h1>
+                <p class="lead mb-4">
+                    A comprehensive platform for collecting and reviewing user-generated content with built-in AI integration and innovative reward systems.
+                </p>
+                <p class="mb-4 text-white-50">
+                    <strong>Earn XP points that can be converted to money once our web app goes live.</strong>
+                </p>
+                
+                <!-- Main CTA Buttons -->
+                <div class="d-flex gap-3 flex-wrap mb-5">
+                    <a href="{{ url_for('signup') }}" class="btn btn-white btn-lg px-4 py-3">
+                        <i class="fas fa-rocket me-2"></i>Get Started Free
                     </a>
-                    <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg px-5 py-3">
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg px-4 py-3">
                         <i class="fas fa-sign-in-alt me-2"></i>Sign In
                     </a>
                 </div>
 
-                <!-- Quick Demo Option -->
-                <div class="text-center">
-                    <p class="text-white-50 mb-3">Want to try it first?</p>
-                    <a href="{{ url_for('name_entry') }}" class="btn btn-outline-light">
-                        <i class="fas fa-play me-2"></i>Quick Demo Mode
-                    </a>
+                <!-- Quick Stats -->
+                <div class="row text-center">
+                    <div class="col-4">
+                        <div class="text-white">
+                            <h4 class="fw-bold mb-1">500MB</h4>
+                            <small class="text-white-50">Daily Upload Limit</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-white">
+                            <h4 class="fw-bold mb-1">XP Points</h4>
+                            <small class="text-white-50">For Every Action</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-white">
+                            <h4 class="fw-bold mb-1">AI Powered</h4>
+                            <small class="text-white-50">Quality Control</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 text-center">
+                <div class="position-relative">
+                    <i class="fas fa-cube display-1 text-white-50 mb-4"></i>
+                    <div class="row g-3 mt-4">
+                        <div class="col-6">
+                            <div class="card bg-dark border-secondary text-white">
+                                <div class="card-body text-center p-3">
+                                    <i class="fas fa-upload text-primary mb-2"></i>
+                                    <h6 class="fw-bold mb-1">Upload Content</h6>
+                                    <small class="text-white-50">Earn 20 XP</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card bg-dark border-secondary text-white">
+                                <div class="card-body text-center p-3">
+                                    <i class="fas fa-star text-warning mb-2"></i>
+                                    <h6 class="fw-bold mb-1">Review Files</h6>
+                                    <small class="text-white-50">Earn 15 XP</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Features Detail Section -->
+<!-- Features Section -->
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-black mb-3">Why Choose Alpha Nex?</h2>
+        <p class="text-muted">Professional platform with real earning potential</p>
+    </div>
+    
+    <div class="row g-4">
+        <!-- Upload System -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="bg-black text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                         style="width: 60px; height: 60px;">
+                        <i class="fas fa-cloud-upload-alt fa-lg"></i>
+                    </div>
+                    <h5 class="fw-bold text-black">Content Upload</h5>
+                    <p class="text-muted small">
+                        Upload videos, audio, PDFs, code, and text with AI consent and duplicate detection.
+                        500MB daily limit with real-time tracking.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Review System -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="bg-black text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                         style="width: 60px; height: 60px;">
+                        <i class="fas fa-star fa-lg"></i>
+                    </div>
+                    <h5 class="fw-bold text-black">Peer Review</h5>
+                    <p class="text-muted small">
+                        Rate content quality with detailed reviews. Earn XP points for quality feedback 
+                        and help maintain platform standards.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Strike System -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="bg-black text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                         style="width: 60px; height: 60px;">
+                        <i class="fas fa-shield-alt fa-lg"></i>
+                    </div>
+                    <h5 class="fw-bold text-black">Quality Control</h5>
+                    <p class="text-muted small">
+                        Dual three-strike system for uploaders and reviewers. 
+                        Automatic moderation with penalty management.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Rewards -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="bg-black text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                         style="width: 60px; height: 60px;">
+                        <i class="fas fa-coins fa-lg"></i>
+                    </div>
+                    <h5 class="fw-bold text-black">XP Rewards</h5>
+                    <p class="text-muted small">
+                        Earn XP points for quality uploads and reviews. 
+                        Points will be converted to money when platform goes live.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How It Works Section -->
 <div class="bg-light py-5">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="fw-bold text-black mb-3">Why Choose Alpha Nex?</h2>
-            <p class="text-muted">Professional platform with real earning potential</p>
+            <h2 class="fw-bold text-black mb-3">How It Works</h2>
+            <p class="text-muted">Simple process to start earning XP points for future money conversion</p>
         </div>
         
         <div class="row g-4">
-            <div class="col-md-6 col-lg-3">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="bg-black text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
-                             style="width: 60px; height: 60px;">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h5 class="fw-bold text-black">Secure Platform</h5>
-                        <p class="text-muted small">Advanced security with user verification and content protection</p>
+            <div class="col-md-4">
+                <div class="d-flex">
+                    <div class="bg-black text-white rounded-circle d-flex align-items-center justify-content-center me-3" 
+                         style="width: 40px; height: 40px; min-width: 40px;">
+                        <span class="fw-bold">1</span>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold text-black">Sign Up & Start</h5>
+                        <p class="text-muted mb-0">
+                            Create your account with email verification and immediately start uploading content.
+                        </p>
                     </div>
                 </div>
             </div>
             
-            <div class="col-md-6 col-lg-3">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="bg-black text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
-                             style="width: 60px; height: 60px;">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h5 class="fw-bold text-black">Track Progress</h5>
-                        <p class="text-muted small">Real-time XP tracking with detailed analytics and milestones</p>
+            <div class="col-md-4">
+                <div class="d-flex">
+                    <div class="bg-black text-white rounded-circle d-flex align-items-center justify-content-center me-3" 
+                         style="width: 40px; height: 40px; min-width: 40px;">
+                        <span class="fw-bold">2</span>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold text-black">Upload & Review</h5>
+                        <p class="text-muted mb-0">
+                            Upload quality content or review others' submissions. Both activities earn XP points.
+                        </p>
                     </div>
                 </div>
             </div>
             
-            <div class="col-md-6 col-lg-3">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="bg-black text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
-                             style="width: 60px; height: 60px;">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h5 class="fw-bold text-black">Community</h5>
-                        <p class="text-muted small">Join thousands of content creators and reviewers worldwide</p>
+            <div class="col-md-4">
+                <div class="d-flex">
+                    <div class="bg-black text-white rounded-circle d-flex align-items-center justify-content-center me-3" 
+                         style="width: 40px; height: 40px; min-width: 40px;">
+                        <span class="fw-bold">3</span>
                     </div>
-                </div>
-            </div>
-            
-            <div class="col-md-6 col-lg-3">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="bg-black text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
-                             style="width: 60px; height: 60px;">
-                            <i class="fas fa-dollar-sign"></i>
-                        </div>
-                        <h5 class="fw-bold text-black">Real Rewards</h5>
-                        <p class="text-muted small">XP points convert to money when platform launches publicly</p>
+                    <div>
+                        <h5 class="fw-bold text-black">Earn & Convert</h5>
+                        <p class="text-muted mb-0">
+                            Accumulate XP points and convert them to money when the platform goes live.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -142,59 +216,18 @@
     </div>
 </div>
 
-<!-- Stats Section -->
-<div class="bg-white py-5">
-    <div class="container">
-        <div class="text-center">
-            <h3 class="fw-bold text-black mb-4">Join the Growing Community</h3>
-            <div class="row g-4">
-                <div class="col-6 col-md-3">
-                    <div class="text-center">
-                        <h2 class="fw-bold text-black mb-1">500+</h2>
-                        <small class="text-muted">Content Uploads</small>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="text-center">
-                        <h2 class="fw-bold text-black mb-1">1000+</h2>
-                        <small class="text-muted">Reviews Completed</small>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="text-center">
-                        <h2 class="fw-bold text-black mb-1">50,000+</h2>
-                        <small class="text-muted">XP Points Earned</small>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="text-center">
-                        <h2 class="fw-bold text-black mb-1">100+</h2>
-                        <small class="text-muted">Active Users</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Call to Action -->
+<!-- CTA Section -->
 <div class="bg-black text-white py-5">
     <div class="container text-center">
         <h2 class="fw-bold mb-3">Ready to Start Earning?</h2>
-        <p class="lead mb-4">Join Alpha Nex today and start building your future income stream</p>
+        <p class="lead mb-4">Join Alpha Nex today and start building your XP points for future money conversion.</p>
         <div class="d-flex gap-3 justify-content-center flex-wrap">
             <a href="{{ url_for('signup') }}" class="btn btn-white btn-lg">
-                <i class="fas fa-rocket me-2"></i>Get Started Now
+                <i class="fas fa-user-plus me-2"></i>Create Account
             </a>
             <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg">
-                <i class="fas fa-sign-in-alt me-2"></i>Already Have Account?
+                <i class="fas fa-sign-in-alt me-2"></i>Sign In
             </a>
-        </div>
-        <div class="mt-4">
-            <small class="text-white-50">
-                <i class="fas fa-info-circle me-1"></i>
-                Try our demo mode to explore features without creating an account
-            </small>
         </div>
     </div>
 </div>

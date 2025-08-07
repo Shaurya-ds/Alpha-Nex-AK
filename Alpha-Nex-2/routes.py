@@ -262,10 +262,6 @@ def index():
         if user:
             return redirect(url_for('dashboard'))
     
-    # Check if user has name in session (coming from demo mode)
-    if 'user_name' in session:
-        return redirect(url_for('dashboard'))
-    
     return render_template('interference_landing.html')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -334,22 +330,7 @@ def logout():
     flash('You have been logged out successfully.', 'info')
     return redirect(url_for('index'))
 
-@app.route('/name_entry', methods=['GET', 'POST'])
-def name_entry():
-    """Name entry page before dashboard"""
-    if request.method == 'POST':
-        name = request.form.get('name', '').strip()
-        if name and len(name) >= 2 and len(name) <= 50 and name.replace(' ', '').isalpha():
-            session['user_name'] = name
-            
-            # Create demo content for reviews if needed
-            create_demo_content_for_reviews()
-            
-            return redirect(url_for('dashboard'))
-        else:
-            flash('Please enter a valid name (2-50 characters, letters and spaces only)', 'error')
-    
-    return render_template('name_entry.html')
+
 
 @app.route('/health')
 def health():
@@ -367,13 +348,18 @@ def health():
 @app.route('/dashboard')
 def dashboard():
     """Dashboard page"""
-    # Check if user has entered name
-    if 'user_name' not in session:
-        return redirect(url_for('name_entry'))
+    # Check if user is logged in
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('index'))
     
     try:
-        user = get_or_create_user_for_session()
-        user_name = session['user_name']
+        user = User.query.get(user_id)
+        if not user:
+            session.clear()
+            return redirect(url_for('index'))
+        
+        user_name = user.name
         
         # Get user stats
         upload_count = Upload.query.filter_by(user_id=user.id).count()
